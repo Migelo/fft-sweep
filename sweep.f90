@@ -11,7 +11,7 @@ program fft_test_driver
     include '/usr/include/fftw3-mpi.f03'
 
     ! Grid parameters
-    integer, parameter :: nx = 1024, ny = 1024
+    integer, parameter :: nx = 256, ny = 256
     real(C_DOUBLE), parameter :: pi = 3.14159265358979d0
 
     ! Sweep parameters (command line)
@@ -19,7 +19,6 @@ program fft_test_driver
     real(C_DOUBLE) :: t_decay, dt
     integer :: n_steps
     real(C_DOUBLE) :: amplitude
-    real(C_DOUBLE) :: omega
     character(len=64) :: arg
     real(C_DOUBLE) :: t
     real(C_DOUBLE) :: k_old, dk
@@ -53,16 +52,16 @@ program fft_test_driver
     end if
 
     ! Parse command line: k_min k_max t_decay dt n_steps [amplitude]
-    k_min = 1.0d0
+    k_min = 2.0d0
     k_max = 32.0d0
-    t_decay = 5.0d0
-    dt = 1.0d0
-    n_steps = 100
+    t_decay = 0.2d0
+    dt = 0.075d0
+    n_steps = 84
+
     amplitude = 1.0d0
     t = 0.0d0
     k_old = k_min
     dk = 0.0d0
-    omega = 2.0d0 * pi / 20.0d0  ! default frequency
 
     if (command_argument_count() >= 1) then
         call get_command_argument(1, arg)
@@ -87,10 +86,6 @@ program fft_test_driver
     if (command_argument_count() >= 6) then
         call get_command_argument(6, arg)
         read(arg, *) amplitude
-    end if
-    if (command_argument_count() >= 7) then
-        call get_command_argument(7, arg)
-        read(arg, *) omega
     end if
 
     ! Initialize MPI
@@ -161,7 +156,7 @@ program fft_test_driver
 
         ! 5. Update k_current (bounce between k_min and k_max)
         ! k_current = k_current + direction * dk
-        k_current = (sin(omega * t) + 1) * (k_max - k_min) / 2 + k_min
+        k_current = (sin(t) + 1) * (k_max - k_min) / 2 + k_min
         dk = abs(k_current - k_old)
         k_old = k_current
         ! if (k_current + dk > k_max) then
