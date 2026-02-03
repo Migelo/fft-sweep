@@ -143,7 +143,7 @@ mpif90 -O2 -I/usr/include sweep.f90 -o sweep -lfftw3_mpi -lfftw3 -lm
 
 ```bash
 # Generate frames (k_min k_max dk t_decay dt n_steps amplitude)
-mpirun -np 1 ./build/sweep 4 64 8 5.0 1.0 250 1.0
+./build/sweep 2 32 0.2 0.075 84 1.0
 
 # Visualize
 pip install -r requirements.txt
