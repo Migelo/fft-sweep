@@ -1,0 +1,14 @@
+[project]
+name = "sweep"
+version = "0.1.0"
+description = "Sweeping turbulence generator and visualizer"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "pillow",
+    "tqdm",
+]
+
+[project.scripts]
+visualize = "visualize_sweep:main"

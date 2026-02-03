@@ -1,0 +1,21 @@
+# Build
+build/
+*.o
+*.mod
+sweep
+
+# Output
+frame_*.bin
+*.gif
+sweep_*.png
+png_frames/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
