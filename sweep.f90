@@ -43,6 +43,15 @@ program fft_test_driver
     character(len=128) :: filename
     integer, dimension(12) :: seed
 
+    ! Check for help flag first
+    if (command_argument_count() >= 1) then
+        call get_command_argument(1, arg)
+        if (trim(arg) == '-h' .or. trim(arg) == '--help') then
+            call print_help()
+            stop
+        end if
+    end if
+
     ! Parse command line: k_min k_max t_decay dt n_steps [amplitude]
     k_min = 1.0d0
     k_max = 32.0d0
@@ -296,5 +305,34 @@ contains
         write(unit_num) F
         close(unit_num)
     end subroutine save_real_bin
+
+    !--------------------------------------------------------------------------
+    ! Print help message
+    !--------------------------------------------------------------------------
+    subroutine print_help()
+        implicit none
+        write(*,'(A)') 'Sweeping Turbulence Generator'
+        write(*,'(A)') ''
+        write(*,'(A)') 'Usage: sweep [OPTIONS] k_min k_max t_decay dt n_steps [amplitude]'
+        write(*,'(A)') '       mpirun -np N sweep k_min k_max t_decay dt n_steps [amplitude]'
+        write(*,'(A)') ''
+        write(*,'(A)') 'Options:'
+        write(*,'(A)') '  -h, --help    Show this help message and exit'
+        write(*,'(A)') ''
+        write(*,'(A)') 'Arguments:'
+        write(*,'(A)') '  k_min         Minimum wavenumber (default: 1.0)'
+        write(*,'(A)') '  k_max         Maximum wavenumber (default: 32.0)'
+        write(*,'(A)') '  t_decay       Exponential decay timescale (default: 5.0)'
+        write(*,'(A)') '  dt            Timestep (default: 1.0)'
+        write(*,'(A)') '  n_steps       Number of frames to generate (default: 100)'
+        write(*,'(A)') '  amplitude     Injection amplitude (default: 1.0)'
+        write(*,'(A)') ''
+        write(*,'(A)') 'Output:'
+        write(*,'(A)') '  Generates frame_NNNN.bin files containing |F|^2 field data'
+        write(*,'(A)') ''
+        write(*,'(A)') 'Example:'
+        write(*,'(A)') '  mpirun -np 4 sweep 4 64 5.0 1.0 250 1.0'
+        write(*,'(A)') ''
+    end subroutine print_help
 
 end program fft_test_driver
