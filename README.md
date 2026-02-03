@@ -2,6 +2,10 @@
 
 Creates evolving, multi-scale turbulent fields by continuously injecting energy at different spatial scales while allowing old structures to decay.
 
+## Overview
+
+<img src="sweep_animation.gif" width="384">
+
 ## The Algorithm
 
 1. **Initialize** an empty real-space field and start at wavenumber `k = k_min`
