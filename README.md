@@ -136,7 +136,7 @@ cmake --build build
 ### Manual
 
 ```bash
-mpif90 -O2 -I/usr/include sweep.f90 -o sweep -lfftw3_mpi -lfftw3 -lm
+mpif90 -O3 -I/usr/include sweep.f90 -o sweep -lfftw3_mpi -lfftw3 -lm
 ```
 
 ## Running
